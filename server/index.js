@@ -6,7 +6,7 @@ const mongoose=require('mongoose')
 const {userRouter}=require('./Routes/userroutes')
 const {courseRouter}=require('./Routes/courseroutes')
 const adminRouter=require('./Routes/adminroutes')
-
+require('dotenv').config()
 
 
 
@@ -32,9 +32,9 @@ app.use('/api/v1/course',courseRouter)
 app.use('/api/v1/admin',adminRouter) 
 
 
-async function  main(){
+async function  main(){ 
 
-await mongoose.connect('mongodb+srv://kesagoniyashwanth:0atPuraPgu9cpZyr@cluster0.0a3g4.mongodb.net/CourseSelling')
+await mongoose.connect(process.env.Mogndburl)
 .then(()=>{
     console.log('Connected to Database Successfully')
 }) 

@@ -75,6 +75,11 @@ res.json({
 
 });
 adminRouter.put("/course", async (req, res) => {
+    const courseId=req.body.courseid;
+    const course=await CourseModel.findOne({courseId:courseId});
+    if(!course){
+        return res.status(404).json({message:"Course not found"})
+    }
     
 });
 
