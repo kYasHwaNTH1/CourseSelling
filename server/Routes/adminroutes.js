@@ -3,7 +3,7 @@ const adminRouter = Router();
 const adminauth = require("../Authentication/adminauth");
 const jwt = require("jsonwebtoken");
 const AdminSecured='hfqwoiy9873204'
-const { AdminModel } = require("../Schema");
+const { AdminModel, CourseModel } = require("../Schema");
 const { userSchema } = require("../Validation/validation");
 
 adminRouter.post("/signup", async (req, res) => {
@@ -60,9 +60,23 @@ adminRouter.use(adminauth)
 adminRouter.post("/course", async (req, res) => {
     //to post a course by admin
     const {title,description,price,imageUrl}=req.body;
+    const adminid=req.decode;
+   const course= await CourseModel.create({
+        title,
+        description,
+        price,
+        imageUrl,
+        creatorId:adminid
+    })
+res.json({
+    msg:"Course created successfully",
+    courseid:course._id
+})
+
+});
+adminRouter.put("/course", async (req, res) => {
     
 });
-adminRouter.put("/course", async (req, res) => {});
 
 adminRouter.get("/course/bulk", async (req, res) => {});
 module.exports = adminRouter;
