@@ -75,13 +75,31 @@ res.json({
 
 });
 adminRouter.put("/course", async (req, res) => {
-    const courseId=req.body.courseid;
-    const course=await CourseModel.findOne({courseId:courseId});
+    const adminid=req.decode;
+    const {title,description,price,imageUrl,courseid}=req.body;
+
+    const course=await CourseModel.updateOne({
+        _id:courseid,
+        creatorId:adminid
+},{
+    title:title,description:description,price:price,imageUrl:imageUrl
+    })
+    
     if(!course){
         return res.status(404).json({message:"Course not found"})
     }
-    
+    res.json({
+        msg:"Course updated successfully",
+        courseid:courseid
+    })
+
 });
 
-adminRouter.get("/course/bulk", async (req, res) => {});
+adminRouter.get("/course/bulk", async (req, res) => {
+    const adminid=req.decode;
+    const courses=await CourseModel.find({createId:adminid})
+    res.json({
+        courses
+    })
+});
 module.exports = adminRouter;
