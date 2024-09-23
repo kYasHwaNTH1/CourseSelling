@@ -1,8 +1,8 @@
 const { Router } = require("express");
 const adminRouter = Router();
-const auth = require("../Authentication/auth");
+const adminauth = require("../Authentication/adminauth");
 const jwt = require("jsonwebtoken");
-const Secured = "aoifdhasdlnapofh93847q048*(^)(*";
+const AdminSecured='hfqwoiy9873204'
 const { AdminModel } = require("../Schema");
 const { userSchema } = require("../Validation/validation");
 
@@ -47,7 +47,7 @@ adminRouter.post("/signin", async (req, res) => {
     if (password !== user.password) {
       return res.json({ message: "Invalid credentials" });
     }
-    const token = jwt.sign({ id: user._id }, Secured);
+    const token = jwt.sign({ id: user._id }, AdminSecured);
     res.json({
       message: "User successfully logged in",
       token: token,
@@ -56,8 +56,12 @@ adminRouter.post("/signin", async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
-
-adminRouter.post("/course", async (req, res) => {});
+adminRouter.use(adminauth)
+adminRouter.post("/course", async (req, res) => {
+    //to post a course by admin
+    const {title,description,price,imageUrl}=req.body;
+    
+});
 adminRouter.put("/course", async (req, res) => {});
 
 adminRouter.get("/course/bulk", async (req, res) => {});
