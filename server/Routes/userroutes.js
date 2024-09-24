@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { UserModel, PurchaseModel } = require("../Schema");
+const { UserModel, PurchaseModel, CourseModel } = require("../Schema");
 const { userSchema } = require("../Validation/validation");
 const userRouter = Router();
 const auth = require("../Authentication/auth");
@@ -63,8 +63,13 @@ userRouter.use(auth);
 userRouter.get("/mycourses", async (req, res) => {
          const userid=req.decode;
          const mycourses=await PurchaseModel.find({userId: userid});
+
+         const coursesdata=await CourseModel.find({
+            _id:{$in: mycourses.map(x=>x.courseId)}
+         })
+
          res.json({
-             mycourses: mycourses
+             coursesdata:coursesdata
          })
 });
 module.exports = {
