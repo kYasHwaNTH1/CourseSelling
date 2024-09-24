@@ -32,19 +32,19 @@ app.use('/api/v1/course',courseRouter)
 app.use('/api/v1/admin',adminRouter) 
 
 
-async function  main(){ 
 
-await mongoose.connect(process.env.Mogndburl)
-.then(()=>{
-    console.log('Connected to Database Successfully')
-}) 
-
-app.listen(3001,()=>{
-    console.log("listening on 3001")
-})
-
-}
-main();
+    async function main() {
+        try {
+            await mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+            console.log('Connected to Database Successfully');
+            app.listen(3001, () => {
+                console.log("Listening on 3001");
+            });
+        } catch (err) {
+            console.error("Database connection error:", err.message);
+        }
+    }
+main()
 
 // app.post('/user/signup',async(req,res)=>{
 //     const email=req.body.email;
@@ -124,3 +124,4 @@ main();
 
 //     next();
 // })
+
