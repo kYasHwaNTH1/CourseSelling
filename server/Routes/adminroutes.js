@@ -97,9 +97,10 @@ adminRouter.put("/course", async (req, res) => {
 
 adminRouter.get("/course/bulk", async (req, res) => {
     const adminid=req.decode;
-    const courses=await CourseModel.find({createId:adminid})
+    const courses=await CourseModel.find({creatorId:adminid})
     res.json({
-        courses
+        courses:courses 
     })
 });
 module.exports = adminRouter;
+
